@@ -24,8 +24,8 @@ app.add_middleware(
 # In a real production app, this would be a vector db or efficient cache
 POLICY_CONTEXT = ""
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
-# We'll look for any PDF in data/ or a specific one
+DATA_DIR = os.path.dirname(__file__)
+# We'll look for any PDF in the same directory (bundled)
 POLICY_FILE_PDF = os.path.join(DATA_DIR, "rutgers_policy.pdf")
 POLICY_FILE_TXT = os.path.join(DATA_DIR, "rutgers_policy.txt")
 POLICY_FILE_MD = os.path.join(DATA_DIR, "rutgers_policy.md")
@@ -64,7 +64,8 @@ class ChatResponse(BaseModel):
     answer: str
     sources: list[str] = [] # Optional for MVP
 
-@app.post("/chat", response_model=ChatResponse)
+# Update route to match the incoming path from Vercel rewrite (/api/chat)
+@app.post("/api/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
     global POLICY_CONTEXT
     
