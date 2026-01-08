@@ -1,5 +1,5 @@
 export async function fetchChatResponse(query: string): Promise<string> {
-    const API_URL = "http://localhost:8000"; // Assuming local backend
+    const API_URL = "/api"; // Use relative path for Vercel rewrites
 
     try {
         const response = await fetch(`${API_URL}/chat`, {

@@ -7,11 +7,10 @@ import ai_service
 
 app = FastAPI(title="Rutgers UFA Spearfishing Agent")
 
-# Allow CORS for Next.js frontend (usually runs on localhost:3000)
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+# Allow CORS for Next.js frontend
+# In production on Vercel, we can allow all origins for the MVP, 
+# or specific Vercel domains.
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
