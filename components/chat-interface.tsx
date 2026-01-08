@@ -220,6 +220,35 @@ export default function ChatInterface() {
                                         <ChevronRight className="w-3 h-3 text-gray-400" /> Expense Report FAQ
                                     </li>
                                 </ul>
+
+                                <h3 className="text-sm font-black text-gray-900 uppercase tracking-[0.15em] mb-4 mt-8 pb-2 border-b border-[#CC0033]/20">
+                                    Try Asking
+                                </h3>
+                                <ul className="space-y-3 text-sm font-medium text-gray-600">
+                                    {[
+                                        "What is the reimbursement rate for driving my own car?",
+                                        "Do I need receipts for meal per diem?",
+                                        "Am I allowed to fly Business Class?",
+                                        "What is the deadline for submitting expenses?"
+                                    ].map((q, i) => (
+                                        <li
+                                            key={i}
+                                            onClick={() => {
+                                                if (isLoading) return;
+                                                setMessages(prev => [...prev, { role: "user", content: q }]);
+                                                setIsLoading(true);
+                                                fetchChatResponse(q)
+                                                    .then(ans => setMessages(prev => [...prev, { role: "assistant", content: ans }]))
+                                                    .catch(() => setMessages(prev => [...prev, { role: "assistant", content: "**Error**: Failed to retrieve policy." }]))
+                                                    .finally(() => setIsLoading(false));
+                                            }}
+                                            className="flex items-start gap-2 hover:translate-x-1 transition-transform cursor-pointer hover:text-[#CC0033] group"
+                                        >
+                                            <ChevronRight className="w-3 h-3 text-[#CC0033] mt-1 shrink-0 group-hover:text-[#CC0033]" />
+                                            <span className="leading-tight">{q}</span>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
 
