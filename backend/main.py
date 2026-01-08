@@ -64,7 +64,8 @@ class ChatResponse(BaseModel):
     answer: str
     sources: list[str] = [] # Optional for MVP
 
-# Update route to match the incoming path from Vercel rewrite (/api/chat)
+# Handle both paths to be safe against Vercel rewriting behavior
+@app.post("/chat", response_model=ChatResponse)
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
     global POLICY_CONTEXT
